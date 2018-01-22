@@ -17,5 +17,5 @@
    "name": "zpool Hash Refinery ahashpool Fiat converter",
    "permissions": [ "tabs", "https://api.coindesk.com/*" ],
    "short_name": "zpool, Hash Refinery and ahashpool BTC to Fiat converter",
-   "version": "0.0.2"
+   "version": "0.0.3"
 }
