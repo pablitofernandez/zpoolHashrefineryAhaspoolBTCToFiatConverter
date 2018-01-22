@@ -109,23 +109,30 @@ function updateResultsTable() {
 		addNewColumnToResultsTable();
 
 	$("#found_results").find('th').last().text(selectedCurrencyName);
+	var ismBTC = $("#found_results").find('th').last().prev().prev().prev().text() === 'mBTC';
 	var total = parseFloat("0.0");
-	$("#found_results").find('tr').each(function(idx){
-		var valueInMBTC = $(this).find("td").last().prev().prev().prev().text();
-		var convertedValue = (valueInMBTC / 1000);
-		
-		if (selectedCurrencyNum > 0)
-		{
-			convertedValue = ((valueInMBTC / 1000) * currencyRateArray[selectedCurrencyNum]).toFixed(2);
-			total = total + (valueInMBTC / 1000) * currencyRateArray[selectedCurrencyNum];
+	
+	$("#found_results").find('tr').each(function(idx) {
+		var btcValue = parseFloat($(this).find("td").last().prev().prev().prev().text());
+		if (!Number.isNaN(btcValue)) {
+			if (ismBTC)
+				btcValue = btcValue / 1000;
+			var convertedValue = btcValue;
+			
+			if (selectedCurrencyNum > 0)
+			{
+				convertedValue = (btcValue * currencyRateArray[selectedCurrencyNum]).toFixed(2);
+				total = total + (btcValue * currencyRateArray[selectedCurrencyNum]);
+				
+			}
+			else {
+				
+				total = total + btcValue;
+			}
+			if (btcValue != '')
+				$(this).find("td").last().text(convertedValue + ' ' + selectedCurrencyName);
 		}
-		else {
-			total = total + valueInMBTC / 1000;
-		}
-		if (valueInMBTC != '')
-			$(this).find("td").last().text(convertedValue + ' ' + selectedCurrencyName);
 	});
-
 	if (selectedCurrencyNum > 0)
 		total = total.toFixed(2);
 
